@@ -148,3 +148,16 @@ berisi program utama (menu pilihan yang memanggil semua menu yang ada)
             break
         else:
             kode_salah()
+            
+            
+            
+            
+## Output
+
+![2](https://user-images.githubusercontent.com/115480692/210620394-29b1b630-2214-4902-b6de-963bab54b108.png)
+
+
+
+![3](https://user-images.githubusercontent.com/115480692/210620428-65a1cf32-df04-474e-86b6-74a92de19fda.png)
+
+
