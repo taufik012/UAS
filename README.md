@@ -93,8 +93,19 @@ berisi modul untuk cetak daftar nilai, cetak hasil pencarian
             print("=================================================================================")
 
     def cari():
-        from view.input_nilai import cari
-        cari()
+    nama = input("Masukkan Nama        : ")
+    if nama in a.keys():
+        print("=================================================================================")
+        print("|                            DAFTAR NILAI MAHASISWA                             |")
+        print("=================================================================================")
+        print("| No |      Nama      |     NIM     |  Tugas  |   UTS   |   UAS   |    Akhir    |")
+        print("=================================================================================")
+        print("| {no:2d} | {0:14s} | {1:11s} | {2:7d} | {3:7d} | {4:7d} | {5:7f}   |"
+              .format(a[0][: 14], a[1][0], a[1][1], a[1][2], a[1][3], a[1][4]))
+        print("=================================================================================")
+    else:
+        print("Data {0} Tidak Ada ".format(nama))
+
     
     
 * input_nilai.py
