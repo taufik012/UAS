@@ -17,158 +17,142 @@ Kelas : TI.22.B2
 
 berisi modul untuk tambah data, ubah data, cari data, hapus data
 
-    a = {}
+    database = {}
 
-    def tambah(nama, nim, tugas, uts, uas):
-        akhir = tugas * 30 / 100 + uts * 35 / 100 + uas * 35 / 100
-        a[nama] = nim, tugas, uts, uas, akhir
+    def tambah_data(nama,nim,tugas,uts,uas,akhir):
+        database[nama] = nama, nim, tugas, uts, uas, akhir
 
-    def hapus(nama):
-        if nama in a.keys():
-            del a[nama]
+    def cari_data():
+        from view.view_nilai import cari
+        cari(input("\nMasukan Nama Yang Ingin dicari = "))
+
+    def hapus_data(nama):
+        if nama in database.keys():
+            del database[nama]
             return True
         else:
-            print("Nama {0} Tidak Ditemukan".format(nama))
+            print(f'Data Dengan Nama {nama} Tidak Ditemukan!')
             return False
 
-    def ubah(nama):
-        if nama in a.keys():
-            del a[nama]
-            print("Ubah Data")
-            from view.input_nilai import input_data
-            input_data()
-
-        else:
-            print("Nama{0} Tidak Ditemukan".format(nama))
-
-    def cari(nama):
-        if nama in a.keys():
-            print("=================================================================================")
-            print("|                            DAFTAR NILAI MAHASISWA                             |")
-            print("=================================================================================")
-            print("|      Nama      |     NIM     |  Tugas  |   UTS   |   UAS   |    Akhir    |")
-            print("=================================================================================")
-            print("| {0:14s} | {1:11s} | {2:7d} | {3:7d} | {4:7d} | {5:7f}   |"
-                .format(nama, a[nama][1], a[nama][2], a[nama][3], a[nama][4], a[nama][5]))
-            print("=================================================================================")
-        else:
-            print("Nama {0} Tidak Ditemukan".format(nama))
+    def ubah_data(nama):
+        if nama in database.keys():
+            del database[nama]
         
         
 * view_nilai.py
  
 berisi modul untuk cetak daftar nilai, cetak hasil pencarian 
 
-    from model.daftar_nilai import a
-
-    def header():
-        print("   Program Input Nilai   ")
-        print("===========================")
-
-
-    def kode_salah():
-        print("KODE YANG ANDA MASUKKAN SALAH!")
-
+    from model.daftar_nilai import database
+    from tabulate import tabulate
 
     def tampilkan():
-        if a.items():
-            print("=================================================================================")
-            print("|                            DAFTAR NILAI MAHASISWA                             |")
-            print("=================================================================================")
-            print("| No |      Nama      |     NIM     |  Tugas  |   UTS   |   UAS   |    Akhir    |")
-            print("=================================================================================")
-            i = 0
-            for b in a.items():
-                i += 1
-                print("| {no:2d} | {0:14s} | {1:11s} | {2:7d} | {3:7d} | {4:7d} | {5:7f}   |"
-                    .format(b[0][: 14], b[1][0], b[1][1], b[1][2], b[1][3], b[1][4], no=i))
-                print("=================================================================================")
-        else:
-            print("=================================================================================")
-            print("|                            DAFTAR NILAI MAHASISWA                             |")
-            print("=================================================================================")
-            print("| No |      Nama      |     NIM     |  Tugas  |   UTS   |   UAS   |    Akhir    |")
-            print("=================================================================================")
-            print("|                                TIDAK ADA DATA                                 |")
-            print("=================================================================================")
+        print(tabulate(database.values(), headers=["Nama", "NIM", "Tugas", "UTS", "UAS", "AKHIR"], tablefmt="double_grid"))
 
-    def cari():
-    nama = input("Masukkan Nama        : ")
-    if nama in a.keys():
-        print("=================================================================================")
-        print("|                            DAFTAR NILAI MAHASISWA                             |")
-        print("=================================================================================")
-        print("| No |      Nama      |     NIM     |  Tugas  |   UTS   |   UAS   |    Akhir    |")
-        print("=================================================================================")
-        print("| {no:2d} | {0:14s} | {1:11s} | {2:7d} | {3:7d} | {4:7d} | {5:7f}   |"
-              .format(a[0][: 14], a[1][0], a[1][1], a[1][2], a[1][3], a[1][4]))
-        print("=================================================================================")
-    else:
-        print("Data {0} Tidak Ada ".format(nama))
+    def cari(nama):
+        Data_cari = {}
+        for key, value in database.items():
+            if nama in value:
+                Data_cari[key] = value
 
+        print(tabulate(Data_cari.values(), headers=[
+            "Nama", "NIM", "Tugas", "UTS", "UAS", "AKHIR"], tablefmt="double_grid"))
     
     
 * input_nilai.py
 
 berisi modul untuk input data yang diminta pengguna untuk memasukkan data
 
-    def input_data():
-        from model.daftar_nilai import tambah
-        nama = input("Masukkan Nama    : ")se
-        nim = input("Masukkan NIM     : ")
-        tugas = int(input("Nilai Tugas      : "))
-        uts = int(input("Nilai UTS        : "))
-        uas = int(input("Nilai UAS        : "))
-        tambah(nama, nim, tugas, uts, uas)
+    from model.daftar_nilai import tambah_data, hapus_data, ubah_data
 
-    def ubah_data():
-        from model.daftar_nilai import ubah
-        ubah(nama=input("Masukkan Nama    : "))
 
-    def hapus_data():
-        from model.daftar_nilai import hapus
-        hapus(nama=input("Masukkan Nama    : "))
+    def masukan_data():
 
-    def cari():
-        from model.daftar_nilai import cari
-        cari(nama=input("Masukkan Nama    : "))
+        print("|=========================|")
+        print("|Silahkan masukkan data : |")
+        print("|=========================|")
+
+        nama = input("Masukan Nama = ")
+        nim = int(input("Masukan NIM  = "))
+        tugas = int(input("Nilai Tugas  = "))
+        uts = int(input("Nilai UTS    = "))
+        uas = int(input("Nilai UAS    = "))
+        akhir = float((0.30 * tugas) + (0.35 * uts) + (0.35 * uas))
+        tambah_data(nama,nim,tugas,uts,uas,akhir)
+
+    def hapus():
+        hapus_data(input("Masukan Nama yang ingin di Hapus = "))
+
+    def ubah():
+        ubah_data(input("Masukan Nama dari Data yang ingin di Ubah = "))
+        print("\n:=====================:")
+        print(":  Masukan Data Baru  :")
+        print(":=====================:")
+
+        nama = input("\nMasukan Nama = ")
+        nim = int(input("Masukan NIM = "))
+        tugas = int(input("Masukan Nilai Tugas = "))
+        uts = int(input("Masukan Nilai UTS = "))
+        uas = int(input("Masukan Nilai UAS = "))
+        akhir = float((0.30 * tugas) + (0.35 * uts) + (0.35 * uas))
+        tambah_data(nama, nim, tugas, uts, uas, akhir)
     
     
 * main.py
 
 berisi program utama (menu pilihan yang memanggil semua menu yang ada)
 
-    from view.input_nilai import input_data, ubah_data, hapus_data
+    from view.input_nilai import masukan_data, hapus, ubah
+    from view.view_nilai import tampilkan
+    from model.daftar_nilai import cari_data
 
-    header()
-    while True:
-        c = input("[(L)ihat, (T)ambah, (U)bah, (H)apus, (C)ari, (K)eluar] : ")
-        if c.lower() == "l":
+    while True :
+        print("-------------------------")
+        print("Pilihan Menu : ")
+        print("-------------------------")
+        print()
+        print("1. Tambah Data")
+        print("2. Tampilkan semua data")
+        print("3. cari Data")
+        print("4. hapus data")
+        print("5. ubah data")
+        print("6. keluar")
+        print()
+
+        pilihan = input("Masukkan pilihan menu : ")
+
+        if pilihan == '1':
+            masukan_data()
+
+        elif pilihan == '2':
             tampilkan()
-        elif c.lower() == "t":
-            input_data()
-        elif c.lower() == "c":
-            cari()
-        elif c.lower() == "u":
-            ubah_data()
-        elif c.lower() == "h":
-            hapus_data()
-        elif c.lower() == "k":
-            print()
-            print("Terima Kasih")
+
+        elif pilihan == '3':
+            cari_data()
+
+        elif pilihan == '4':
+            hapus()
+
+        elif pilihan == '5':
+            ubah()
+
+        elif pilihan == '6':
+            print("terimakasih")
             break
-        else:
-            kode_salah()
+        else :
+            print("silahkan masukkan pilihan yang benar!!!")
             
             
             
             
 ## Output
 
-![2](https://user-images.githubusercontent.com/115480692/210620394-29b1b630-2214-4902-b6de-963bab54b108.png)
+![uas 1](https://user-images.githubusercontent.com/115480692/212340641-6cd3d945-5f1e-4f6c-b3f6-b5725ab2e927.png)
 
 
 
-![3](https://user-images.githubusercontent.com/115480692/210620428-65a1cf32-df04-474e-86b6-74a92de19fda.png)
+
+![uas 2](https://user-images.githubusercontent.com/115480692/212340820-8ae470b5-078a-4de5-8120-9ae5f6edfdff.png)
+
 
 
