@@ -6,6 +6,13 @@ NIM   : 312210674
 
 Kelas : TI.22.B2
 
+
+## Link Youtube
+
+
+
+
+
 ## Soal UAS
 
 ![Soal](https://user-images.githubusercontent.com/115480692/210613432-4aec9f6e-bda3-42c5-8663-08226bb7442e.png)
