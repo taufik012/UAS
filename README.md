@@ -10,7 +10,7 @@ Kelas : TI.22.B2
 ## Link Youtube
 
 
-
+https://youtu.be/S8YBMqqlzuE
 
 
 ## Soal UAS
